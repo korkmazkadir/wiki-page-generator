@@ -1,0 +1,1 @@
+# Algorand: Scaling Byzantine Agreements for Cryptocurrencies
