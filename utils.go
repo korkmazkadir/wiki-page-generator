@@ -13,7 +13,10 @@ import (
 	"time"
 )
 
-const wikiXMLfile = "wiki.xml"
+const (
+	layoutISO   = "2006-01-02"
+	wikiXMLfile = "wiki.xml"
+)
 
 func loadWikiXML(rootDirectory string) wiki {
 
@@ -158,7 +161,18 @@ func generatDateList(wikiData wiki) []date {
 	}
 
 	sort.Slice(list, func(i, j int) bool {
-		return strings.ToLower(list[i].Name) < strings.ToLower(list[j].Name)
+
+		datei, err := time.Parse(layoutISO, list[i].Name)
+		if err != nil {
+			panic(err)
+		}
+
+		datej, _ := time.Parse(layoutISO, list[j].Name)
+		if err != nil {
+			panic(err)
+		}
+
+		return datei.After(datej)
 	})
 
 	return list
